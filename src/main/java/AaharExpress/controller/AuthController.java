@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5175", "https://aahar-express-f.vercel.app"}, maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5175"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
