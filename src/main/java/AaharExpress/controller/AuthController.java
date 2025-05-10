@@ -64,7 +64,11 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt, 
                                                  userDetails.getId(), 
                                                  userDetails.getUsername(), 
-                                                 userDetails.getEmail(), 
+                                                 userDetails.getEmail(),
+                                                 userDetails.getFullName(),
+                                                 userDetails.getMobileNumber(),
+                                                 userDetails.getAddress(),
+                                                 userDetails.getMemberSince(),
                                                  roles));
     }
 
@@ -86,6 +90,11 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), 
                              signUpRequest.getEmail(),
                              encoder.encode(signUpRequest.getPassword()));
+                             
+        // Set additional user details
+        user.setFullName(signUpRequest.getFullName());
+        user.setMobileNumber(signUpRequest.getMobileNumber());
+        user.setAddress(signUpRequest.getAddress());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -129,6 +138,10 @@ public class AuthController {
             response.put("email", user.getEmail());
             response.put("passwordLength", user.getPassword().length());
             response.put("passwordHash", user.getPassword());
+            response.put("fullName", user.getFullName());
+            response.put("mobileNumber", user.getMobileNumber());
+            response.put("address", user.getAddress());
+            response.put("memberSince", user.getMemberSince());
             response.put("roles", user.getRoles().stream()
                     .map(role -> role.getName().name())
                     .collect(Collectors.toList()));

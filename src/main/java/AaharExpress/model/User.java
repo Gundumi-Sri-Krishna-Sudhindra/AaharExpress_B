@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users",
@@ -31,6 +32,18 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String password;
+    
+    @Size(max = 100)
+    private String fullName;
+    
+    @Size(max = 15)
+    private String mobileNumber;
+    
+    @Size(max = 255)
+    private String address;
+    
+    @Column(name = "member_since")
+    private LocalDateTime memberSince;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -39,12 +52,24 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     public User() {
+        this.memberSince = LocalDateTime.now();
     }
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.memberSince = LocalDateTime.now();
+    }
+    
+    public User(String username, String email, String password, String fullName, String mobileNumber, String address) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.mobileNumber = mobileNumber;
+        this.address = address;
+        this.memberSince = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -77,6 +102,38 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDateTime getMemberSince() {
+        return memberSince;
+    }
+
+    public void setMemberSince(LocalDateTime memberSince) {
+        this.memberSince = memberSince;
     }
 
     public Set<Role> getRoles() {
