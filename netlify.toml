@@ -15,6 +15,19 @@
   force = true
   conditions = {Method = ["OPTIONS"]}
 
+# Support for both API path formats
+[[redirects]]
+  from = "/.netlify/functions/auth/signin"
+  to = "/.netlify/functions/auth-mock"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/.netlify/functions/auth/signup"
+  to = "/.netlify/functions/auth-mock"
+  status = 200
+  force = true
+
 # For testing: Route auth requests to mock auth function
 [[redirects]]
   from = "/api/auth/signin"

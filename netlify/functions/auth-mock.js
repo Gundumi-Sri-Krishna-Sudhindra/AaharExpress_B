@@ -1,5 +1,8 @@
 // Mock authentication function for immediate testing
 exports.handler = async function(event, context) {
+  console.log("Mock auth function called with path:", event.path);
+  console.log("HTTP Method:", event.httpMethod);
+
   // Set CORS headers for all responses
   const headers = {
     'Access-Control-Allow-Origin': 'https://aahar-express-f.vercel.app',
@@ -20,25 +23,37 @@ exports.handler = async function(event, context) {
 
   // Extract path from event
   const path = event.path.split('/').pop();
+  console.log("Endpoint extracted:", path);
   
   // Handle POST request
   if (event.httpMethod === 'POST') {
     try {
       // Parse request body
-      const requestBody = JSON.parse(event.body);
+      let requestBody = {};
+      if (event.body) {
+        try {
+          requestBody = JSON.parse(event.body);
+          console.log("Request body:", JSON.stringify(requestBody));
+        } catch (e) {
+          console.log("Could not parse request body as JSON:", event.body);
+        }
+      }
       
       // Generate mock response based on the endpoint
       let responseData;
       
       if (path === 'signin') {
+        // Always provide a successful login response regardless of credentials
         responseData = {
           id: 1,
           username: requestBody.username || 'user123',
           email: requestBody.email || 'user@example.com',
           roles: ['ROLE_USER'],
-          accessToken: 'mock-jwt-token-12345',
+          accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMTIzIiwiaWF0IjoxNzE2MzIzNjQ4LCJleHAiOjE3MTY0MTAwNDh9.mockToken',
           tokenType: 'Bearer'
         };
+        
+        console.log("Sending successful signin response");
       } else if (path === 'signup') {
         responseData = {
           message: 'User registered successfully!',
@@ -49,10 +64,14 @@ exports.handler = async function(event, context) {
             roles: ['ROLE_USER']
           }
         };
+        
+        console.log("Sending successful signup response");
       } else {
         responseData = {
           message: 'Unknown auth endpoint'
         };
+        
+        console.log("Unknown endpoint requested:", path);
       }
       
       // Return mock response
