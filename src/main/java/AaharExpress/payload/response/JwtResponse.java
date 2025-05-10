@@ -3,7 +3,7 @@ package AaharExpress.payload.response;
 import java.util.List;
 
 public class JwtResponse {
-    private String accessToken;
+    private String token;
     private String type = "Bearer";
     private Long id;
     private String username;
@@ -11,7 +11,7 @@ public class JwtResponse {
     private List<String> roles;
 
     public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
-        this.accessToken = accessToken;
+        this.token = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
@@ -19,11 +19,11 @@ public class JwtResponse {
     }
 
     public String getAccessToken() {
-        return accessToken;
+        return token;
     }
 
     public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+        this.token = accessToken;
     }
 
     public String getTokenType() {

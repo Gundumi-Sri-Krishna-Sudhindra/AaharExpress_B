@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/auth/';
-const USER_API_URL = 'http://localhost:8080/api/users/';
 
 class AuthService {
   // Login user and save token to localStorage
@@ -71,17 +70,6 @@ class AuthService {
     } else {
       delete axios.defaults.headers.common['Authorization'];
     }
-  }
-  
-  // Fetch current user profile from backend
-  fetchUserProfile() {
-    this.setAuthHeader();
-    return axios.get(USER_API_URL + 'profile')
-      .then(response => {
-        // Update local storage with the latest user data
-        localStorage.setItem('user', JSON.stringify(response.data));
-        return response.data;
-      });
   }
 }
 

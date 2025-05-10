@@ -25,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5175"}, maxAge = 3600)
 @RestController
@@ -111,5 +114,48 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+    
+    // Debug endpoint to get user details by username
+    @GetMapping("/user-details/{username}")
+    public ResponseEntity<?> getUserDetails(@PathVariable String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", user.getId());
+            response.put("username", user.getUsername());
+            response.put("email", user.getEmail());
+            response.put("passwordLength", user.getPassword().length());
+            response.put("passwordHash", user.getPassword());
+            response.put("roles", user.getRoles().stream()
+                    .map(role -> role.getName().name())
+                    .collect(Collectors.toList()));
+            
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    // Debug endpoint to test password matching
+    @PostMapping("/test-password")
+    public ResponseEntity<?> testPasswordMatch(@RequestParam String username, @RequestParam String rawPassword) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            boolean matches = encoder.matches(rawPassword, user.getPassword());
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("username", username);
+            response.put("passwordMatches", matches);
+            response.put("storedPasswordHash", user.getPassword());
+            
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 } 
