@@ -1,17 +1,6 @@
 // Handler for the signin endpoint
 module.exports = (req, res) => {
-  // Set CORS headers explicitly for all response types
-  res.setHeader('Access-Control-Allow-Origin', 'https://aahar-express-f.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Max-Age', '86400');
-
-  // Handle OPTIONS request first - critical for CORS preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
+  // We don't need to handle OPTIONS requests anymore as they're handled by Vercel routing
   // For non-OPTIONS requests (handle actual signin)
   if (req.method === 'POST') {
     try {
