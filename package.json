@@ -1,0 +1,13 @@
+{
+  "name": "aahar-express-backend",
+  "version": "1.0.0",
+  "description": "Backend for AaharExpress food delivery application",
+  "main": "index.js",
+  "scripts": {
+    "start": "netlify-lambda serve netlify/functions",
+    "build": "netlify-lambda build netlify/functions"
+  },
+  "dependencies": {
+    "netlify-lambda": "^2.0.15"
+  }
+} 
