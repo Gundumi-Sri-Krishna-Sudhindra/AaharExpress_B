@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:5175", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:5175", "https://aahar-express-f.vercel.app"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
