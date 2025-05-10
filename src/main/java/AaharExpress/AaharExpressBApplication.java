@@ -21,9 +21,9 @@ public class AaharExpressBApplication {
 		return args -> {
 			// Initialize roles if they don't exist
 			if (roleRepository.count() == 0) {
+				roleRepository.save(new Role(ERole.ROLE_USER));
 				roleRepository.save(new Role(ERole.ROLE_ADMIN));
 				roleRepository.save(new Role(ERole.ROLE_RESTAURANT));
-				roleRepository.save(new Role(ERole.ROLE_CUSTOMER));
 				roleRepository.save(new Role(ERole.ROLE_DELIVERY_AGENT));
 				System.out.println("Roles initialized successfully!");
 			}
