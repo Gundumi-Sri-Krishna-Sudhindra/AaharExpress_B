@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "https://aahar-express-f.vercel.app" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
@@ -16,19 +16,33 @@
       "handle": "filesystem" 
     },
     {
-      "src": "/api/(.*)",
-      "methods": ["OPTIONS"],
-      "dest": "/api/_cors.js"
-    },
-    {
       "src": "/api/auth/signin",
-      "methods": ["POST"],
+      "methods": ["OPTIONS", "POST"],
       "dest": "/api/auth/signin.js"
     },
     {
       "src": "/api/auth/signup",
-      "methods": ["POST"],
+      "methods": ["OPTIONS", "POST"],
       "dest": "/api/auth/signup.js"
+    },
+    {
+      "src": "/api/auth/(.*)",
+      "methods": ["OPTIONS"],
+      "dest": "/api/auth/cors-handler.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "methods": ["OPTIONS"],
+      "status": 200,
+      "continue": true,
+      "headers": {
+        "Access-Control-Allow-Origin": "https://aahar-express-f.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept, Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Max-Age": "86400",
+        "Content-Type": "text/plain"
+      }
     },
     {
       "src": "/(.*)",
