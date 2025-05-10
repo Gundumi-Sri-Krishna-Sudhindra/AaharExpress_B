@@ -11,6 +11,8 @@ import AaharExpress.repository.RoleRepository;
 import AaharExpress.repository.UserRepository;
 import AaharExpress.security.jwt.JwtUtils;
 import AaharExpress.security.services.UserDetailsImpl;
+import AaharExpress.service.UserService;
+import AaharExpress.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,6 +49,12 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -131,6 +139,9 @@ public class AuthController {
 
         user.setRoles(roles);
         userRepository.save(user);
+        
+        // Send welcome email to the new user
+        emailService.sendWelcomeEmail(user.getEmail(), user.getUsername(), user.getFullName());
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
@@ -179,6 +190,19 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+        boolean result = userService.forgotPassword(email);
+        
+        if (result) {
+            return ResponseEntity.ok(new MessageResponse("Password recovery email sent successfully!"));
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email not found!"));
         }
     }
 } 

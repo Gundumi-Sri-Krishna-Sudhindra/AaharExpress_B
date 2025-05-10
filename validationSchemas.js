@@ -25,4 +25,12 @@ export const loginSchema = Yup.object().shape({
         .required('Username is required'),
     password: Yup.string()
         .required('Password is required')
+});
+
+// Forgot password form validation schema
+export const forgotPasswordSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Invalid email format')
+        .max(50, 'Email cannot exceed 50 characters')
+        .required('Email is required')
 }); 
