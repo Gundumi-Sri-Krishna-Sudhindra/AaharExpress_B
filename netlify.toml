@@ -13,4 +13,31 @@
   to = "/.netlify/functions/cors-preflight"
   status = 200
   force = true
-  conditions = {Method = ["OPTIONS"]} 
+  conditions = {Method = ["OPTIONS"]}
+
+# For testing: Route auth requests to mock auth function
+[[redirects]]
+  from = "/api/auth/signin"
+  to = "/.netlify/functions/auth-mock"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/auth/signup"
+  to = "/.netlify/functions/auth-mock"
+  status = 200
+  force = true
+
+# For all other API routes, proxy to your Spring Boot API if it's hosted elsewhere
+# (Remove this if your Spring Boot app is deployed with Netlify)
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-spring-boot-api-url.com/api/:splat"
+  status = 200
+  force = true
+
+# Fallback for all other routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
