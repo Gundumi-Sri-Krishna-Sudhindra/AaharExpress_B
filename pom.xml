@@ -11,7 +11,7 @@
 	<groupId>AaharExpress</groupId>
 	<artifactId>AaharExpress_B</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>AaharExpress_B</name>
 	<description>AaharExpress</description>
 	<url/>
