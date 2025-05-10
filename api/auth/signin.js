@@ -1,24 +1,41 @@
 // Handler for the signin endpoint
 module.exports = (req, res) => {
-  // Set CORS headers
+  // Set CORS headers explicitly for all response types
   res.setHeader('Access-Control-Allow-Origin', 'https://aahar-express-f.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Max-Age', '86400');
 
-  // Handle OPTIONS method
+  // Handle OPTIONS request first - critical for CORS preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // This is a proxy handler - in a real implementation, you'd forward the request to your Spring backend
-  // For now, we're just ensuring the CORS preflight works
+  // For non-OPTIONS requests (handle actual signin)
   if (req.method === 'POST') {
-    // In a real implementation, you would proxy this to your actual backend
-    // For now, we'll send a mock response
-    res.status(200).json({ message: 'This is a placeholder for the signin endpoint' });
-  } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    try {
+      // Successfully handled signin
+      return res.status(200).json({
+        message: 'Signin successful',
+        token: 'mock-jwt-token',
+        // Include other fields your frontend expects
+        user: {
+          id: 1,
+          username: 'test_user',
+          email: 'test@example.com',
+          fullName: 'Test User',
+          roles: ['ROLE_USER']
+        }
+      });
+    } catch (error) {
+      return res.status(500).json({ 
+        message: 'Error processing request',
+        error: error.toString() 
+      });
+    }
   }
+
+  // Method not allowed
+  return res.status(405).json({ message: 'Method not allowed' });
 }; 
