@@ -37,4 +37,4 @@ Aaharexpress is not just about delivering food—it’s about delivering hope. T
 ---
 
 ## Contact Us 📩
-For inquiries and partnerships, reach out to us at **aaharexpress@gmail.com**.
+For inquiries and partnerships, reach out to us at **aaharexpressindia@gmail.com**.
